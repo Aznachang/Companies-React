@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const fsPromises = require("fs/promises");
 const app = express();
 
 /** Mongo Config **/
@@ -11,8 +12,8 @@ const mongoUri = 'mongodb://localhost/companies';
 mongoose.connect(mongoUri);
 
 const db = mongoose.connection;
-db.on('error', ()=> {
-	throw new Error('unabled to connect to database at ' + mongoUri);
+db.on('error', () => {
+	throw new Error(`unable to connect to database at ${mongoUri}`);
 });
 
 /** Swagger **/
@@ -30,7 +31,7 @@ const swaggerDefinition = {
 // options for the swagger docs
 const options = {
   // import swaggerDefinitions
-  swaggerDefinition: swaggerDefinition,
+  swaggerDefinition,
   // path to the API docs
   apis: ['./*.js', './models/*.js'],
 };
@@ -51,6 +52,7 @@ app.configure(function() {
   app.use('/vince', express.static('../vince'));
 });
 
+/** base route (localhost:3001 || production-site-url) */
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

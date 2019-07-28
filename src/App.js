@@ -7,7 +7,7 @@ class App extends Component {
       <div className="App">
         <h2>List of Companies</h2>
         {/* Company Container */}
-        CompanyList
+        
       </div>
     );  
   }
